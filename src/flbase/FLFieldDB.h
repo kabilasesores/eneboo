@@ -704,6 +704,12 @@ private:
   FLFieldDB *fieldMapValue_;
   QString mapValue_;
 
+  /**
+  Tamaño máximo de las imágenes en los campos pixmaps (en píxeles)
+  @author Silix
+  */
+  int maxPixImages_;
+
 signals:
 
   /**

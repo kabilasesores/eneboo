@@ -248,6 +248,9 @@ FLFieldDB::FLFieldDB(QWidget *parent, const char *name) :
   pushButtonDB->setFlat(true);
   setFocusProxy(pushButtonDB);
 
+  // Silix
+  maxPixImages_ = 600;
+
   topWidget_ = topLevelWidget();
 
   if (topWidget_ && !topWidget_->inherits("FLFormDB")) {
@@ -1446,7 +1449,20 @@ void FLFieldDB::setPixmap(const QString &filename)
   QCString s;
   QBuffer buffer(s);
 
-  pix.convertFromImage(img);
+  // Silix
+  if (img.width() <= maxPixImages_ && img.height() <= maxPixImages_)
+    pix.convertFromImage(img);
+  else {
+    int newWidth, newHeight;
+    if (img.width() < img.height()) {
+      newHeight = maxPixImages_;
+      newWidth = qRound(newHeight * img.width() / img.height());
+    } else {
+      newWidth = maxPixImages_;
+      newHeight = qRound(newWidth * img.height() / img.width());
+    }
+    pix.convertFromImage(img.scale(newWidth, newHeight, QImage::ScaleMin));
+  }
 
   QApplication::restoreOverrideCursor();
 
@@ -1525,7 +1541,20 @@ void FLFieldDB::setPixmapFromClipboard()
   QCString s;
   QBuffer buffer(s);
 
-  pix.convertFromImage(img);
+  // Silix
+  if (img.width() <= maxPixImages_ && img.height() <= maxPixImages_)
+    pix.convertFromImage(img);
+  else {
+    int newWidth, newHeight;
+    if (img.width() < img.height()) {
+      newHeight = maxPixImages_;
+      newWidth = qRound(newHeight * img.width() / img.height());
+    } else {
+      newWidth = maxPixImages_;
+      newHeight = qRound(newWidth * img.height() / img.width());
+    }
+    pix.convertFromImage(img.scale(newWidth, newHeight, QImage::ScaleMin));
+  }
 
   QApplication::restoreOverrideCursor();
 
