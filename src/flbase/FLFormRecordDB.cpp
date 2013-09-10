@@ -45,6 +45,7 @@ FLFormRecordDB::FLFormRecordDB(FLSqlCursor *cursor, const QString &actionName, Q
     action_ = FLSqlConnections::database()->manager()->action(actionName);
   cursor_ = cursor;
   name_ = QString::null;
+  accepted = false;
 
   initForm();
 }
